@@ -21,25 +21,14 @@ const userSchema = new Schema({
   }
 })
 
-// userSchema.methods.getCart = function(){
-//       const productIds = this.cart.items.map(i=>{
-//         return i.productId
-//       })
-//       return Product
-//       .find({ _id: { $in: productIds } })
-//       .toArray()
-//       .then(products => {
-//         return products.map(p => {
-//           return {
-//             ...p, 
-//             quantity : this.cart.items.find(i=> {
-//               return i.productId.toString() === p._id.toString()
-//             }).quantity
-//           }
-//         })
-//       })
-    
-// }
+userSchema.methods.removeFromCart = function(productId){
+    const updatedCartItems = this.cart.items.filter(item=> {
+      return item.productId.toString() !== productId.toString()
+    })
+    this.cart.items = updatedCartItems
+    return this.save()
+}
+
 
 userSchema.methods.addToCart = function(product){
       const cartProductIndex = this.cart.items.findIndex(cp =>{
