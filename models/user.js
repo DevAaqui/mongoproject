@@ -29,6 +29,10 @@ userSchema.methods.removeFromCart = function(productId){
     return this.save()
 }
 
+userSchema.methods.clearCart = function(){
+  this.cart = {items: []}
+  return this.save()
+}
 
 userSchema.methods.addToCart = function(product){
       const cartProductIndex = this.cart.items.findIndex(cp =>{
